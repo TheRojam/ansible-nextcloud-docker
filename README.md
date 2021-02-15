@@ -4,7 +4,8 @@ This Role creates an nextcloud on an dockerhost
 
 ## Requirements
 
-Debian based System
+Debian based System with Docker installed.
+You could use author's dockerhost-role.
 
 ## Role Variables
 
