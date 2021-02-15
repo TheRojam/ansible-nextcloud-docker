@@ -1,0 +1,23 @@
+---
+
+dependencies: [dockerhost]
+
+galaxy_info:
+  role_name: 'nextcloud'
+  author: 'therojam <github@therojam.tech'
+  description: 'This is the ansible docker nextcloud'
+  min_ansible_version: '2.9.0'
+  license: GPL
+  platforms:
+    - name: Ubuntu
+      versions:
+        - bionic
+        - focal
+        - groovy
+        - hirsute
+    - name: Debian
+      versions:
+        - bullseye
+        - buster
+        - sid
+  galaxy_tags: []

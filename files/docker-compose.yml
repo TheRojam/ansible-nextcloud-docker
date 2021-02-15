@@ -1,0 +1,92 @@
+version: '3.7'
+
+services:
+  nextcloud-db:
+    container_name: nextcloud-db
+    image: 'mariadb'
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    restart: always
+    #    networks:
+    #      - onlyoffice
+    volumes:
+      - '/srv/nextcloud/mysql/:/var/lib/mysql:z'
+    environment:
+      - MYSQL_ROOT_PASSWORD=hidden
+      - MYSQL_PASSWORD=hidden
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+
+  nextcloud-redis:
+    container_name: nextcloud-redis
+    image: redis:alpine
+    restart: always
+    #    networks:
+    #      - onlyoffice
+
+  app-server:
+    container_name: app-server
+#    image: nextcloud:fpm
+    build: ./nextcloud-full
+#    dockerfile: Dockerfile
+    stdin_open: true
+    tty: true
+    restart: always
+    expose:
+      - '80'
+      - '9000'
+    #    networks:
+    #      - onlyoffice
+    volumes:
+      - '/srv/nextcloud/nextcloud/app_data/:/var/www/html/:z'
+    depends_on:
+      - nextcloud-db
+      - nextcloud-redis
+  onlyoffice-document-server:
+    container_name: onlyoffice-document-server
+    image: onlyoffice/documentserver:latest
+    stdin_open: true
+    tty: true
+    restart: always
+    #    networks:
+    #      - onlyoffice
+    expose:
+      - '80'
+      - '443'
+    volumes:
+      - '/srv/nextcloud/onlyoffice/document_data:/var/www/onlyoffice/Data:z'
+      - '/srv/nextcloud/onlyoffice/document_log:/var/log/onlyoffice:z'
+  #      - '/srv/nextcloud/onlyoffice/fonts:/usr/share/fonts:z'
+  #      - '/srv/nextcloud/onlyoffice/core-fonts:/var/www/onlyoffice/documentserver/core-fonts:z'
+  nginx-server:
+    container_name: nginx-server
+    image: nginx
+    stdin_open: true
+    tty: true
+    restart: always
+    ports:
+      - 10005:80
+      - 10006:443
+    #    networks:
+    #      - onlyoffice
+    volumes:
+      - '/srv/nextcloud/nginx/nginx.conf:/etc/nginx/nginx.conf:z'
+      - '/srv/nextcloud/nextcloud/app_data/:/var/www/html/:z'
+    depends_on:
+      - app-server
+      - onlyoffice-document-server
+  # Watchtower detects if any linked containers have an new image
+  # available, automatically updating & restarting them if needed.
+  nextcloud-watchtower:
+    container_name: nextcloud-watchtower
+    # https://hub.docker.com/r/centurylink/watchtower/
+    image: containrrr/watchtower:latest
+    # https://github.com/v2tec/watchtower#options
+    # This schedule applies updates (if available) at midnight.
+    command: --cleanup --schedule "0 0 0 * * *"
+    restart: always
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock:z'
+
+#networks:
+#  onlyoffice:
+#    driver: 'bridge'
