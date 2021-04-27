@@ -48,7 +48,16 @@ http {
 	{% for settings in docker.settings %}
     server {
         listen 80;
+	listen [::]:80;
         server_name {{ settings.prod_name }}, {{ settings.dev_name }}; 
+	server_tokens off; ## Don't show the nginx version number, a security best practice
+	return 301 https://$http_host$request_uri;}
+
+
+        server_name {{ settings.prod_name }}, {{ settings.dev_name }}; 
+	listen 443 ssl;
+	listen [::]:443 ssl;
+	server_tokens off; ## Don't show the nginx version number, a security best practice
         # Add headers to serve security related headers
         add_header Strict-Transport-Security "max-age=15768000; includeSubDomains; preload;";
         add_header X-Content-Type-Options nosniff;
