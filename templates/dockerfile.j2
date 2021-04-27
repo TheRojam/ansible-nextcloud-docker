@@ -29,7 +29,6 @@ RUN set -ex; \
         bz2 \
         imap \
     ; \
-    pear config-set http_proxy http://{{ http_proxy }}; \
     pecl install smbclient; \
     docker-php-ext-enable smbclient; \
     \
