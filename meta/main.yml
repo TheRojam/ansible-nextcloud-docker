@@ -1,7 +1,4 @@
 ---
-
-#dependencies: [dockerhost]
-
 galaxy_info:
   role_name: 'nextcloud'
   author: 'therojam <github@therojam.tech'
