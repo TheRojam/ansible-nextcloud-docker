@@ -1,8 +1,5 @@
 FROM nextcloud:fpm
 
-ENV HTTP_PROXY=http://{{ http_proxy }}
-ENV HTTPS_PROXY=http://{{ http_proxy }}
-
 RUN set -ex; \
     \
     apt-get update; \
