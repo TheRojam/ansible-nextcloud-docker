@@ -1,6 +1,6 @@
 ---
 
-dependencies: [dockerhost]
+#dependencies: [dockerhost]
 
 galaxy_info:
   role_name: 'nextcloud'
