@@ -2,7 +2,6 @@
 docker_service: nextcloud
 docker_dir: '/var/docker/{{ docker_service }}'
 dockerfile_path: '{{ docker_dir }}/Dockerfile'
-apt_proxy_conf: '/etc/apt/apt.conf.d/proxy.conf'
 mysql_password: 'S3cr3t+p4ssW0rd'
 mysql_root_password: 'S|_/p3-S3cr3t+p4ssW0rd'
 mysql_database: nextcloud
