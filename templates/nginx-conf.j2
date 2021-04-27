@@ -50,7 +50,6 @@ http {
         listen 80;
         server_name {{ settings.prod_name }}, {{ settings.dev_name }}; 
 	server_tokens off; ## Don't show the nginx version number, a security best practice
-	return 301 https://$http_host$request_uri;}
 
 
         # Add headers to serve security related headers
