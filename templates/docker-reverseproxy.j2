@@ -1,10 +1,18 @@
 {% for docker in docker %}
 	{% for settings in docker.settings %}
 server {
-        listen 0.0.0.0:80;
+        listen 80;
+	listen [::]:80;
 
         server_name {{ settings.prod_name }}, {{ settings.dev_name }};
-
+	server_tokens off; ## Don't show the nginx version number, a security best practice
+	return 301 https://$http_host$request_uri;
+}
+server {
+	listen 443 ssl;
+	listen [::]:443 ssl;
+        server_name {{ settings.prod_name }}, {{ settings.dev_name }}; 
+	server_tokens off; ## Don't show the nginx version number, a security best practice
         access_log /var/log/nginx/{{ settings.name }}-access.log;
         error_log /var/log/nginx/{{ settings.name }}-error.log warn;
        
