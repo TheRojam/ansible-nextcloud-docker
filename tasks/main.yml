@@ -10,7 +10,7 @@
     - 'role::nextcloud:config'
 
 - name: import configuration tasks
-    ansible.builtin.import_tasks: configuration.yml
-    tags:
-      - 'role::nextcloud'
-      - 'role::nextcloud:config'
+  ansible.builtin.import_tasks: configuration.yml
+  tags:
+    - 'role::nextcloud'
+    - 'role::nextcloud:config'
