@@ -1,6 +1,7 @@
 ---
 galaxy_info:
   role_name: 'nextcloud'
+  namespace: therojam
   author: 'therojam <github@therojam.tech'
   description: 'This is the ansible docker nextcloud'
   min_ansible_version: '2.9.0'
@@ -17,4 +18,4 @@ galaxy_info:
         - bullseye
         - buster
         - sid
-  galaxy_tags: []
+  galaxy_tags: [ nextcloud, docker ]
