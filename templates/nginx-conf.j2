@@ -49,6 +49,9 @@ http {
     server {
         listen 80;
         server_name {{ settings.prod_name }}, {{ settings.dev_name }}; 
+	server_tokens off; ## Don't show the nginx version number, a security best practice
+
+
         # Add headers to serve security related headers
         add_header Strict-Transport-Security "max-age=15768000; includeSubDomains; preload;";
         add_header X-Content-Type-Options nosniff;

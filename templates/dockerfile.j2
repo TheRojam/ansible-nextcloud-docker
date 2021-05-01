@@ -1,8 +1,5 @@
 FROM nextcloud:fpm
 
-ENV HTTP_PROXY=http://{{ http_proxy }}
-ENV HTTPS_PROXY=http://{{ http_proxy }}
-
 RUN set -ex; \
     \
     apt-get update; \
@@ -32,7 +29,6 @@ RUN set -ex; \
         bz2 \
         imap \
     ; \
-    pear config-set http_proxy http://{{ http_proxy }}; \
     pecl install smbclient; \
     docker-php-ext-enable smbclient; \
     \
