@@ -2,9 +2,18 @@
 docker_service: nextcloud
 docker_dir: '/var/docker/{{ docker_service }}'
 dockerfile_path: '{{ docker_dir }}/Dockerfile'
-apt_proxy_conf: '/etc/apt/apt.conf.d/proxy.conf'
+path_nc: '/var/www/{{ docker_service }}/' 
 mysql_password: 'S3cr3t+p4ssW0rd'
 mysql_root_password: 'S|_/p3-S3cr3t+p4ssW0rd'
 mysql_database: nextcloud
 mysql_user: nextcloud
 nginx_conf: /etc/nginx
+nextcloud_port: 10005
+docker:
+  - nextcloud:
+    customer: amnews 
+    settings:
+    - name: amnews-cloud
+      prod_name: cloud.am-news.eu 
+      dev_name: next.therojam.cloud 
+      server_port: '{{ nextcloud_port }}'
