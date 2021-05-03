@@ -40,6 +40,13 @@ server {
     	location /.well-known/caldav {
     	  return 301 $scheme://$host/remote.php/dav;
     	}
+	location /.well-known/webfinger {
+	  return 301 $scheme://$host/nextcloud/index.php/.well-known/webfinger
+	}
+	location /.well-known/nodinfo {
+	  return 301 $scheme://$host/nextcloud/index.php/.well-known/nodinfo
+	}
+
 	location / {
                 proxy_buffering off;
                 proxy_pass http://localhost:{{ settings.server_port }};
@@ -48,6 +55,7 @@ server {
         	proxy_set_header X-Real-IP $remote_addr;
         	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         	proxy_set_header X-Forwarded-Proto $scheme;
+		proxy_set_header X-Frame-Options "SAMEORIGIN";
         	proxy_http_version 1.1;
         	proxy_set_header Connection "";
         	client_max_body_size 0;
