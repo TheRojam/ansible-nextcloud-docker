@@ -17,3 +17,5 @@ docker:
       prod_name: cloud.am-news.eu 
       dev_name: next.therojam.cloud 
       server_port: '{{ nextcloud_port }}'
+      ssl_cert: "/etc/letsencrypt/live/bewelcome.org/fullchain.pem"
+      ssl_key: "/etc/letsencrypt/live/bewelcome.org/privkey.pem"

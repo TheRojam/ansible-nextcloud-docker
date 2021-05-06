@@ -15,7 +15,10 @@ server {
 	server_tokens off; ## Don't show the nginx version number, a security best practice
         access_log /var/log/nginx/{{ settings.name }}-access.log;
         error_log /var/log/nginx/{{ settings.name }}-error.log warn;
-       
+	ssl on;
+       	ssl_certificate {{ settings.ssl_cert  }}; 
+ 	ssl_certificate_key {{ settings.ssl_key  }};      
+ 
     	add_header 'Referrer-Policy' 'no-referrer';
 
     	# replace with the IP address of your resolver
