@@ -41,10 +41,10 @@ server {
     	  return 301 $scheme://$host/remote.php/dav;
     	}
 	location /.well-known/webfinger {
-	  return 301 $scheme://$host/nextcloud/index.php/.well-known/webfinger
+	  return 301 $scheme://$host/nextcloud/index.php/.well-known/webfinger;
 	}
 	location /.well-known/nodinfo {
-	  return 301 $scheme://$host/nextcloud/index.php/.well-known/nodinfo
+	  return 301 $scheme://$host/nextcloud/index.php/.well-known/nodinfo;
 	}
 
 	location / {
