@@ -1,35 +1,47 @@
-version: '3'
+version: '3.7'
 
 services:
   nextcloud-db:
     container_name: nextcloud-db
     image: 'mariadb'
-    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-    restart: always
+    command: --transaction-isolation=READ-COMMITTED --log-bin=mysqld-bin  --binlog-format=ROW --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --innodb-buffer-pool-size=1024M --innodb-log-file-size=256M --table-definition-cache=128M --tmp-table-size=128M --max-heap-table-size=128M --join-buffer-size=512K --performance-schema=1 --slow-query-log=1 --slow-query-log-file=slow.log
+    restart: unless-stopped
     volumes:
       - '{{ path_nc }}/mysql/:/var/lib/mysql:z'
     environment:
       - MYSQL_ROOT_PASSWORD={{ mysql_root_password }}
       - MYSQL_PASSWORD={{ mysql_password }}
       - MYSQL_DATABASE={{ mysql_database }}
-      - MYSQL_USER={{ mysql_user }}
+      - MYSQL_USER={{ mysql_user }} 
+      healthcheck:
+      test: mysql --user=${MYSQL_USER} --password=${MYSQL_ROOT_PASSWORD} ${MYSQL_DATABASE} --execute "show tables"
+      interval: "1m"
+      timeout: "3s"
+      start_period: "1m"
+      retries: "3"
 
   nextcloud-redis:
     container_name: nextcloud-redis
     image: redis:alpine
-    restart: always
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 1s
+      timeout: 3s
+      retries: 30
 
   app-server:
     container_name: app-server
     build: {{ docker_dir }} 
     stdin_open: true
     tty: true
-    restart: always
+    restart: unless-stopped
     expose:
       - '80'
       - '9000'
     volumes:
-      - '{{ path_nc }}/nextcloud/app_data/:/var/www/html/:z'
+      - '{{ path_nc }}/nextcloud/app_data/:/var/www/html/'
+      - '{{ path_nc }}/supervisord/:/var/log/supervisord/'
     depends_on:
       - nextcloud-db
       - nextcloud-redis
