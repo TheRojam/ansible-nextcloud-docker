@@ -58,8 +58,6 @@ services:
       - '80'
       - '443'
     volumes:
-      - '{{ path_nc }}/onlyoffice/document_data:/var/www/onlyoffice/Data'
-      - '{{ path_nc }}/onlyoffice/document_log:/var/log/onlyoffice'
       - '{{ path_nc }}/onlyoffice/logs:/var/log/onlyoffice'
       - '{{ path_nc }}/onlyoffice/data:/var/www/onlyoffice/Data'
       - '{{ path_nc }}/onlyoffice/lib:/var/lib/onlyoffice'
