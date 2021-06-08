@@ -14,7 +14,8 @@ services:
       - MYSQL_DATABASE='{{ mysql_database }}'
       - MYSQL_USER='{{ mysql_user }}'
     healthcheck:
-     test: mysql --user='{{mysql_user}}' --password='{{mysql_root_password}}' {{mysql_database}} --execute "show tables"
+     test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+     #test: mysql --user='{{mysql_user}}' --password='{{mysql_root_password}}' {{mysql_database}} --execute "show tables"
      interval: "1m"
      timeout: "3s"
      start_period: "1m"
