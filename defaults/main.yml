@@ -17,3 +17,5 @@ docker:
       prod_name: cloud.am-news.eu 
       dev_name: next.therojam.cloud 
       server_port: '{{ nextcloud_port }}'
+      ssl_cert: "/path/2/your/ssl_cert"
+      ssl_key: "/path/2/your/ssl_key"
